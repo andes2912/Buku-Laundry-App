@@ -57,19 +57,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Diamond Bottom Bar',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Welcome, ${widget.name}"),
-          actions: [
-            IconButton(
-                onPressed: () => logOut(),
-                icon: const Icon(Icons.logout_outlined))
-          ],
-        ),
+        // appBar: AppBar(
+        //   title: Text("Welcome, ${widget.name}"),
+        //   actions: [
+        //     IconButton(
+        //         onPressed: () => logOut(),
+        //         icon: const Icon(Icons.logout_outlined))
+        //   ],
+        // ),
         body: _selectedWidget,
         bottomNavigationBar: DiamondBottomNavigation(
           itemIcons: const [
