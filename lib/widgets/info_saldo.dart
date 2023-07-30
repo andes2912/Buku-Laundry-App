@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InfoBalance extends StatelessWidget {
-  const InfoBalance({
+  // ignore: prefer_const_constructors_in_immutables
+  InfoBalance({
     Key? key,
     required this.isIncome,
     required this.balance,
@@ -18,7 +19,8 @@ class InfoBalance extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width * 0.4,
-      padding: const EdgeInsets.all(15),
+      // ignore: prefer_const_constructors
+      padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: isIncome == true ? appGreen : appRed,
         borderRadius: BorderRadius.circular(20),
@@ -33,10 +35,13 @@ class InfoBalance extends StatelessWidget {
               borderRadius: BorderRadius.circular(13),
             ),
             child: isIncome == true
-                ? const Icon(Icons.monetization_on)
-                : const Icon(Icons.money_off_sharp),
+                // ignore: prefer_const_constructors
+                ? Icon(Icons.monetization_on)
+                // ignore: prefer_const_constructors
+                : Icon(Icons.money_off_sharp),
           ),
-          const SizedBox(width: 10),
+          // ignore: prefer_const_constructors
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,15 +49,18 @@ class InfoBalance extends StatelessWidget {
               children: [
                 Text(
                   isIncome == true ? "Income" : "Outcome",
-                  style: const TextStyle(
+                  // ignore: prefer_const_constructors
+                  style: TextStyle(
                     color: appWhite,
                   ),
                 ),
-                const SizedBox(height: 5),
+                // ignore: prefer_const_constructors
+                SizedBox(height: 5),
                 FittedBox(
                   child: Text(
                     "\ Rp $balance",
-                    style: const TextStyle(
+                    // ignore: prefer_const_constructors
+                    style: TextStyle(
                       color: appWhite,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

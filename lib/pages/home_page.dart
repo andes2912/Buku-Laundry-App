@@ -1,3 +1,4 @@
+import 'package:bukulaundry/constant/colors.dart';
 import 'package:bukulaundry/pages/dashboard_page.dart';
 import 'package:bukulaundry/pages/location_page.dart';
 import 'package:bukulaundry/pages/message_page.dart';
@@ -6,7 +7,7 @@ import 'package:bukulaundry/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bukulaundry/pages/login_page.dart';
-import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
   final String name;
@@ -19,6 +20,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int selectedpage = 0;
+  final _pageNo = [
+    DashboardPage(),
+    // ignore: prefer_const_constructors
+    NotificationPage(),
+    // ignore: prefer_const_constructors
+    LocationPage(),
+    // ignore: prefer_const_constructors
+    MessagesPage(),
+    // ignore: prefer_const_constructors
+    ProfilePage()
+  ];
+
+  var url = 'https://andridesmana.vercel.app/images/me.jpeg';
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -29,28 +44,11 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => const PageLogin(),
+        // ignore: prefer_const_constructors
+        builder: (BuildContext context) => PageLogin(),
       ),
       (route) => false,
     );
-
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-          content: Text(
-        "Berhasil logout",
-        style: TextStyle(fontSize: 16),
-      )),
-    );
-  }
-
-  int _selectedIndex = 0;
-  late Widget _selectedWidget;
-
-  @override
-  void initState() {
-    _selectedWidget = const DashboardPage();
-    super.initState();
   }
 
   @override
@@ -61,44 +59,54 @@ class _HomePageState extends State<HomePage> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        // appBar: AppBar(
-        //   title: Text("Welcome, ${widget.name}"),
-        //   actions: [
-        //     IconButton(
-        //         onPressed: () => logOut(),
-        //         icon: const Icon(Icons.logout_outlined))
-        //   ],
-        // ),
-        body: _selectedWidget,
-        bottomNavigationBar: DiamondBottomNavigation(
-          itemIcons: const [
-            Icons.home,
-            Icons.notifications,
-            Icons.message,
-            Icons.account_box,
+        appBar: AppBar(
+          shadowColor: appBlueSoft.withOpacity(0.2),
+          backgroundColor: appBlueSoft.withOpacity(0.2),
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(url),
+            backgroundColor: Colors.greenAccent,
+          ),
+          leadingWidth: 40,
+
+          centerTitle: false,
+          title: Center(
+              child: Text(
+            "Welcome, ${widget.name}",
+            // ignore: prefer_const_constructors
+            style: TextStyle(color: appBlack),
+          )),
+
+          // ignore: prefer_const_literals_to_create_immutables
+          actions: [
+            // ignore: prefer_const_constructors
+            IconButton(
+              onPressed: () => logOut(),
+              // ignore: prefer_const_constructors
+              icon: Icon(Icons.logout),
+              color: appBlack,
+            )
           ],
-          centerIcon: Icons.place,
-          selectedIndex: _selectedIndex,
-          onItemPressed: onPressed,
+        ),
+        body: _pageNo[selectedpage],
+        bottomNavigationBar: ConvexAppBar(
+          backgroundColor: appWhite,
+          color: appPrimary,
+          activeColor: appPrimary,
+          items: const [
+            TabItem(icon: Icons.home, title: 'Home'),
+            TabItem(icon: Icons.map, title: 'Pesanan'),
+            TabItem(icon: Icons.add, title: 'Customer'),
+            TabItem(icon: Icons.message, title: 'Pesan'),
+            TabItem(icon: Icons.people, title: 'Profile'),
+          ],
+          initialActiveIndex: selectedpage,
+          onTap: (int index) {
+            setState(() {
+              selectedpage = index;
+            });
+          },
         ),
       ),
     );
-  }
-
-  void onPressed(index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 0) {
-        _selectedWidget = const DashboardPage();
-      } else if (index == 1) {
-        _selectedWidget = const NotificationPage();
-      } else if (index == 2) {
-        _selectedWidget = const LocationPage();
-      } else if (index == 3) {
-        _selectedWidget = const MessagesPage();
-      } else if (index == 4) {
-        _selectedWidget = const ProfilePage();
-      }
-    });
   }
 }
