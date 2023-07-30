@@ -1,77 +1,127 @@
 import 'package:bukulaundry/constant/colors.dart';
-import 'package:bukulaundry/widgets/card.dart';
+import 'package:bukulaundry/widgets/info_saldo.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  // ignore: prefer_const_constructors_in_immutables
+  DashboardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<SalesData> chartData = [
+      SalesData("Jan", 200000),
+      SalesData("Feb", 289000),
+      SalesData("Mar", 342000),
+      SalesData("Apr", 321000),
+      SalesData("Mei", 402000)
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
           // Backgorund
           Container(
-            decoration: const BoxDecoration(
+            // ignore: prefer_const_constructors
+            decoration: BoxDecoration(
+                // ignore: prefer_const_constructors
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [appYellowSoft, appPrimary],
+              // ignore: prefer_const_literals_to_create_immutables
+              colors: [
+                appYellowSoft,
+                appPrimary.withOpacity(0.6),
+              ],
             )),
           ),
-          const SafeArea(
-              child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          SafeArea(
+            child: Column(
+              children: [
+                // ignore: prefer_const_constructors
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Saldo Saat Ini"),
+                const SizedBox(height: 10),
+                const Text(
+                  "IDR 900.000",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(),
-                    Row(
-                      children: [
-                        // IconButton(
-                        //     onPressed: null,
-                        //     icon: Icon(
-                        //       Icons.keyboard_arrow_down_rounded,
-                        //       color: appPrimary,
-                        //     )),
-                        Text(
-                          "Andri Desmana",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.notifications_active,
-                          color: appPrimary,
-                        ))
+                    InfoBalance(isIncome: true, balance: 900000),
+                    InfoBalance(isIncome: false, balance: 45000),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text("Saldo Saat Ini"),
-              SizedBox(height: 10),
-              Text(
-                "IDR 900.000",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoBalance(isIncome: true, balance: 900000),
-                  InfoBalance(isIncome: false, balance: 45000)
-                ],
-              ),
-            ],
-          ))
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          "Pendapatan per-bulan ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // ignore: avoid_unnecessary_containers
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
+                        child: Container(
+                          height: 250,
+                          width: chartData.length * 100,
+                          child: SfCartesianChart(
+                            primaryXAxis: CategoryAxis(),
+                            series: <ChartSeries>[
+                              // Renders line chart
+                              SplineSeries<SalesData, String>(
+                                width: 4,
+                                color: appPrimary,
+                                dataSource: chartData,
+                                xValueMapper: (SalesData sales, _) =>
+                                    sales.month,
+                                yValueMapper: (SalesData sales, _) =>
+                                    sales.sales,
+                              ),
+                              SplineSeries<SalesData, String>(
+                                width: 2,
+                                color: appPrimary,
+                                dataSource: chartData,
+                                xValueMapper: (SalesData sales, _) =>
+                                    sales.month,
+                                yValueMapper: (SalesData sales, _) => 300000,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
   }
+}
+
+class SalesData {
+  SalesData(this.month, this.sales);
+  final String month;
+  final double sales;
 }
