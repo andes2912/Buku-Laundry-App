@@ -1,34 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:bukulaundry/constant/colors.dart';
+import 'package:bukulaundry/services/user_service.dart';
 import 'package:bukulaundry/widgets/info_saldo.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bukulaundry/models/user_model.dart';
-
-Future<User> fetchUser() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final token = prefs.getString("token");
-
-  final response = await http.get(
-    Uri.parse('http://127.0.0.1:3001/api/profile'),
-    headers: {
-      'Authorization': 'Bearer $token',
-    },
-  );
-
-  final output = jsonDecode(response.body)['data'];
-  print(output);
-  if (response.statusCode == 200) {
-    return User.fromJson(jsonDecode(response.body)['data']);
-  } else {
-    throw Exception('Failed to load User');
-  }
-}
 
 void main() => runApp(const ProfilePage());
 
@@ -45,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    futureUser = fetchUser();
+    futureUser = UserService().fetchUser();
   }
 
   @override
