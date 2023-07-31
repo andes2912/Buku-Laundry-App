@@ -2,15 +2,16 @@
 
 import 'package:bukulaundry/constant/colors.dart';
 import 'package:bukulaundry/models/user_model.dart';
-import 'package:bukulaundry/pages/dashboard_page.dart';
-import 'package:bukulaundry/pages/location_page.dart';
+import 'package:bukulaundry/network/api.dart';
+import 'package:bukulaundry/pages/home/dashboard_page.dart';
+import 'package:bukulaundry/pages/customer/customer_page.dart';
 import 'package:bukulaundry/pages/message_page.dart';
-import 'package:bukulaundry/pages/notification_page.dart';
-import 'package:bukulaundry/pages/profile_page.dart';
+import 'package:bukulaundry/pages/pesanan/pesanan_page.dart';
+import 'package:bukulaundry/pages/profile/profile_page.dart';
 import 'package:bukulaundry/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bukulaundry/pages/login_page.dart';
+import 'package:bukulaundry/pages/auth/login_page.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,13 +27,11 @@ class _HomePageState extends State<HomePage> {
   int selectedpage = 0;
   final _pageNo = [
     DashboardPage(),
-    NotificationPage(),
-    LocationPage(),
+    PesananPage(),
+    CustomerPage(),
     MessagesPage(),
     ProfilePage()
   ];
-
-  var url = 'https://andridesmana.vercel.app/images/me.jpeg';
 
   @override
   void initState() {
@@ -66,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: appBlueSoft.withOpacity(0.4),
           leading: CircleAvatar(
-            backgroundImage: NetworkImage(url),
+            backgroundImage: NetworkImage(ApiService().profileUrl()),
             backgroundColor: Colors.greenAccent,
           ),
           leadingWidth: 40,
@@ -108,9 +107,9 @@ class _HomePageState extends State<HomePage> {
           activeColor: appBlack.withOpacity(0.5),
           items: const [
             TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: Icons.monetization_on_outlined, title: 'Pesanan'),
+            TabItem(icon: Icons.shopping_cart, title: 'Pesanan'),
             TabItem(icon: Icons.people_alt_outlined, title: 'Customer'),
-            TabItem(icon: Icons.message, title: 'Pesan'),
+            TabItem(icon: Icons.attach_money, title: 'Finance'),
             TabItem(icon: Icons.person, title: 'Profile'),
           ],
           initialActiveIndex: selectedpage,
