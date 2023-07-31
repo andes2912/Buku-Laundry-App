@@ -1,20 +1,19 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:bukulaundry/constant/colors.dart';
+import 'package:bukulaundry/models/user_model.dart';
 import 'package:bukulaundry/pages/dashboard_page.dart';
 import 'package:bukulaundry/pages/location_page.dart';
 import 'package:bukulaundry/pages/message_page.dart';
 import 'package:bukulaundry/pages/notification_page.dart';
 import 'package:bukulaundry/pages/profile_page.dart';
+import 'package:bukulaundry/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bukulaundry/pages/login_page.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
-  // final String name;
-  // final String token;
-
   const HomePage({super.key});
 
   @override
@@ -22,6 +21,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<User> futureUser;
+
   int selectedpage = 0;
   final _pageNo = [
     DashboardPage(),
@@ -32,13 +33,19 @@ class _HomePageState extends State<HomePage> {
   ];
 
   var url = 'https://andridesmana.vercel.app/images/me.jpeg';
+
+  @override
+  void initState() {
+    super.initState();
+    futureUser = UserService().fetchUser();
+  }
+
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.remove('token');
     });
 
-    // ignore: use_build_context_synchronously
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -64,15 +71,29 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.greenAccent,
           ),
           leadingWidth: 40,
-
           centerTitle: false,
           title: Center(
-              child: Text(
-            "Welcome,",
-            style: TextStyle(color: appBlack),
-          )),
-
-          // ignore: prefer_const_literals_to_create_immutables
+            child: FutureBuilder<User>(
+              future: futureUser,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: Text(
+                      "Welcome, ${snapshot.data!.name}",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: appWhite,
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
+              },
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () => logOut(),
