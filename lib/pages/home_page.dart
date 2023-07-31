@@ -64,8 +64,7 @@ class _HomePageState extends State<HomePage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          shadowColor: appBlueSoft.withOpacity(0.2),
-          backgroundColor: appBlueSoft.withOpacity(0.2),
+          backgroundColor: appBlueSoft.withOpacity(0.4),
           leading: CircleAvatar(
             backgroundImage: NetworkImage(url),
             backgroundColor: Colors.greenAccent,
@@ -105,14 +104,14 @@ class _HomePageState extends State<HomePage> {
         body: _pageNo[selectedpage],
         bottomNavigationBar: ConvexAppBar(
           backgroundColor: appWhite,
-          color: appPrimary,
-          activeColor: appPrimary,
+          color: appBlack.withOpacity(0.4),
+          activeColor: appBlack.withOpacity(0.5),
           items: const [
             TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: Icons.map, title: 'Pesanan'),
-            TabItem(icon: Icons.add, title: 'Customer'),
+            TabItem(icon: Icons.monetization_on_outlined, title: 'Pesanan'),
+            TabItem(icon: Icons.people_alt_outlined, title: 'Customer'),
             TabItem(icon: Icons.message, title: 'Pesan'),
-            TabItem(icon: Icons.people, title: 'Profile'),
+            TabItem(icon: Icons.person, title: 'Profile'),
           ],
           initialActiveIndex: selectedpage,
           onTap: (int index) {

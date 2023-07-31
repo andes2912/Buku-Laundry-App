@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appBlue,
+      backgroundColor: appBlueSoft.withOpacity(0.4),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: appWhite,
+                        color: appBlack.withOpacity(0.8),
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -71,22 +71,23 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Text(
                 "Software Enggineer",
-                style: TextStyle(fontSize: 12, color: appVioletSoft),
+                style:
+                    TextStyle(fontSize: 12, color: appBlack.withOpacity(0.7)),
               ),
               SizedBox(
                 height: 30,
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(30),
-                    decoration: BoxDecoration(
-                      color: appWhite,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(40),
-                      ),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 30, left: 30, right: 30),
+                  decoration: BoxDecoration(
+                    color: appWhite,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(40),
                     ),
+                  ),
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,6 +100,36 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         SizedBox(
                           height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InfoBalance(isIncome: true, balance: 900000),
+                            InfoBalance(isIncome: false, balance: 45000),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InfoBalance(isIncome: true, balance: 900000),
+                            InfoBalance(isIncome: false, balance: 45000),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InfoBalance(isIncome: true, balance: 900000),
+                            InfoBalance(isIncome: false, balance: 45000),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
