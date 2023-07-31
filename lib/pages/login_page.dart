@@ -136,7 +136,7 @@ class _PageLoginState extends State<PageLogin> {
 
     try {
       final response =
-          await http.post(Uri.parse("http://127.0.0.1:8000/v1/login"),
+          await http.post(Uri.parse("http://127.0.0.1:3001/api/login"),
               headers: {'Content-Type': 'application/json; charset=UTF-8'},
               body: jsonEncode({
                 "email": email,
@@ -144,14 +144,15 @@ class _PageLoginState extends State<PageLogin> {
               }));
 
       final output = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
+      // ignore: avoid_print
+      print(output['data']);
+      if (output['code'] == 200) {
         // Mengambil data token
-        final accessToken = jsonDecode(response.body)['data']['result'];
-        final token = accessToken['access_token'];
+        final token = jsonDecode(response.body)['data'];
 
         // Mengambil data user
-        final user = jsonDecode(response.body)['data']['result'];
+        // ignore: unused_local_variable
+        final user = jsonDecode(response.body);
 
         //menyimpan data token
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -162,12 +163,8 @@ class _PageLoginState extends State<PageLogin> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(
-              // id: user['id'],
-              name: user['name'],
-              // email: user['email'],
-              token: token,
-            ),
+            // ignore: prefer_const_constructors
+            builder: (context) => HomePage(),
           ),
           (route) => false,
         );
