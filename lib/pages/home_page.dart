@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:bukulaundry/constant/colors.dart';
 import 'package:bukulaundry/pages/dashboard_page.dart';
 import 'package:bukulaundry/pages/location_page.dart';
@@ -10,10 +12,10 @@ import 'package:bukulaundry/pages/login_page.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
-  final String name;
-  final String token;
+  // final String name;
+  // final String token;
 
-  const HomePage({super.key, required this.name, required this.token});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,13 +25,9 @@ class _HomePageState extends State<HomePage> {
   int selectedpage = 0;
   final _pageNo = [
     DashboardPage(),
-    // ignore: prefer_const_constructors
     NotificationPage(),
-    // ignore: prefer_const_constructors
     LocationPage(),
-    // ignore: prefer_const_constructors
     MessagesPage(),
-    // ignore: prefer_const_constructors
     ProfilePage()
   ];
 
@@ -44,7 +42,6 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        // ignore: prefer_const_constructors
         builder: (BuildContext context) => PageLogin(),
       ),
       (route) => false,
@@ -71,17 +68,14 @@ class _HomePageState extends State<HomePage> {
           centerTitle: false,
           title: Center(
               child: Text(
-            "Welcome, ${widget.name}",
-            // ignore: prefer_const_constructors
+            "Welcome,",
             style: TextStyle(color: appBlack),
           )),
 
           // ignore: prefer_const_literals_to_create_immutables
           actions: [
-            // ignore: prefer_const_constructors
             IconButton(
               onPressed: () => logOut(),
-              // ignore: prefer_const_constructors
               icon: Icon(Icons.logout),
               color: appBlack,
             )
