@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore
+
 import 'dart:convert';
 
 import 'package:bukulaundry/widgets/dialogs.dart';
@@ -154,6 +156,9 @@ class _PageLoginState extends State<PageLogin> {
         // ignore: unused_local_variable
         final user = jsonDecode(response.body);
 
+        // Menyimpan session
+        saveSession(email);
+
         //menyimpan data token
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
@@ -193,6 +198,45 @@ class _PageLoginState extends State<PageLogin> {
       Dialogs.popUp(context, '$e');
       debugPrint('$e');
     }
+  }
+
+  saveSession(String email) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString("email", email);
+    await pref.setBool("is_login", true);
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const HomePage(),
+      ),
+      (route) => false,
+    );
+  }
+
+  void ceckLogin() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var islogin = pref.getBool("is_login");
+    if (islogin != null && islogin) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const HomePage(),
+        ),
+        (route) => false,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    ceckLogin();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
   }
 
   @override
