@@ -30,8 +30,8 @@ class DashboardPage extends StatelessWidget {
               end: Alignment.bottomCenter,
               // ignore: prefer_const_literals_to_create_immutables
               colors: [
-                appYellowSoft,
-                appPrimary.withOpacity(0.6),
+                appBlueSoft.withOpacity(0.4),
+                appRedSoft.withOpacity(0.6),
               ],
             )),
           ),
