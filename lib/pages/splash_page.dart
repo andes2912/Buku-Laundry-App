@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bukulaundry/pages/login_page.dart';
+import 'package:bukulaundry/pages/auth/login_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

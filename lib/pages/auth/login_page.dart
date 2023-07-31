@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bukulaundry/pages/home_page.dart';
+import 'package:bukulaundry/pages/home/home_page.dart';
 
 class PageLogin extends StatefulWidget {
   const PageLogin({Key? key}) : super(key: key);

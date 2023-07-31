@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bukulaundry/network/api.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:bukulaundry/models/user_model.dart';
@@ -10,7 +11,7 @@ class UserService {
     final token = prefs.getString("token");
 
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:3001/api/profile'),
+      Uri.parse(ApiService().baseUrl() + 'profile'),
       headers: {
         'Authorization': 'Bearer $token',
       },
