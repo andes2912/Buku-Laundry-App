@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<User> futureUser;
+  String email = "";
 
   int selectedpage = 0;
   final _pageNo = [
@@ -33,16 +34,31 @@ class _HomePageState extends State<HomePage> {
     ProfilePage()
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    futureUser = UserService().fetchUser();
+  getPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var islogin = pref.getBool("is_login");
+    // print(islogin);
+    if (islogin != null && islogin == true) {
+      setState(() {
+        email = pref.getString("email")!;
+      });
+    } else {
+      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const PageLogin(),
+        ),
+        (route) => false,
+      );
+    }
   }
 
   logOut() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      preferences.remove('token');
+      preferences.remove("is_login");
+      preferences.remove("email");
     });
 
     Navigator.pushAndRemoveUntil(
@@ -52,6 +68,18 @@ class _HomePageState extends State<HomePage> {
       ),
       (route) => false,
     );
+  }
+
+  @override
+  void initState() {
+    getPref();
+    futureUser = UserService().fetchUser();
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
   }
 
   @override
